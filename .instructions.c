@@ -6,6 +6,15 @@ struct instruction{
   int []adress_destination; 
 };
 
+struct mcro{
+  char *mcro_name;
+  char *mcro_lines;
+};
+
+struct label{
+  char *label;
+  int address;
+}
 struct instruction *table_instruction[] = {
   {0, NULL, "mov", [0,1,3], [1,3]},
   {1, NULL, "cmp",[0,1,3], [0,1,3]},
