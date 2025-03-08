@@ -4,6 +4,8 @@
 #include <ctype.h>
 #include <stdlib.h>
 
+typedef enum { FALSE, TRUE} boolean;
+
 void check_file(int argc, char *argv[]);
 void read_file_line(char *filename);
 void create_file(char *file_name, char *file_type);
