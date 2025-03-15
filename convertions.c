@@ -4,7 +4,7 @@ int main(int argc, char *argv[]){
   char hex ='0';
   char *binary, *binary_bits_word;
   char *word_hex = malloc(6);
-  printf("the number is %s \n",decimal_to_binary(7,6));
+  printf("the number is %s \n",decimal_to_binary(-18,16));
   binary = "0101";
   hex = convert_binary_to_hex(binary);
   printf("the number is %c \n",hex);

@@ -61,6 +61,13 @@ void create_file(char *file_name, char *file_type){
   fclose(file);
 }
 
+char *create_fullname__of_file(char *file_name, char *file_type){
+  char full_filename = (char *)malloc(strlen(file_name));
+  strcpy(full_filename, file_name, strlen(file_name));
+  strcat(full_filename, ".");
+  strcat(full_filename, file_type);
+  return *full_filename;
+}
 /* This function append line to new file 
     input:
       line_string- the line we want to append to the file

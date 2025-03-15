@@ -3,8 +3,17 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#define MAX_NAME_LENGTH 31
+#define MAX_LINE_LENGTH 80
 
 typedef enum { FALSE, TRUE} boolean;
+typedef struct Label{
+  char label_name[MAX_NAME_LENGTH];
+  int label_address;
+  label_type label_character;
+  struct Label *next;
+
+} label;
 
 void check_file(int argc, char *argv[]);
 void read_file_line(char *filename);
