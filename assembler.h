@@ -27,13 +27,16 @@ typedef struct {
     int adress_source[3];
     int adress_destination[3];
 } Instruction;
-/*extern instruction table_instruction[];*/
 
+
+
+typedef enum { FALSE, TRUE} boolean;
 
 void check_file(int argc, char *argv[]);
 void read_file_line(char *filename);
 void create_file(char *file_name, char *file_type);
 void append_line_to_file(char *string, char *full_file_name);
+
 Split split_line(char *line);
 int checking_mcro_name(Split split_copy_line);
 void saving_mcro_data(char *mcro_name, char *mcro_lines);
@@ -42,5 +45,9 @@ void store_mcros( char *filename);
 void create_file_am(char *file_name, char *filename);
 void release_memory();
 void Subtracting_spaces(char *s);
-//int line_length(char *line);
+
 int checking_register(char *x);
+char *decimal_to_binary(int decimal_number, int bits_number);
+char convert_binary_to_hex(char *binary_number);
+char *convert_word_binary_to_hex(char *binary_number);
+
