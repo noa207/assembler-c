@@ -1,11 +1,11 @@
 #include "assembler.h"
-
+/*
 int main(int argc, char *argv[]){ 
   check_file(argc, argv);
   create_file("hello","as");
   append_line_to_file("hello world", "hello.as");
   return 0;
-}
+}*/
 
 /* This function check if does file exist
     input:
