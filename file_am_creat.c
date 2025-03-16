@@ -12,10 +12,10 @@
 #define MAX_LINE_LENGTH 80
 #define NUM_INSRUCTION 16
 
-mcro *mcros = NULL;
+Mcro *mcros = NULL;
 int number_of_mcros = 0;
 
-instruction table_instruction[] = {
+Instruction table_instruction[] = {
     {0, {}, "mov", {0,1,3}, {1,3}},
     {1, {}, "cmp",{0,1,3}, {0,1,3}},
     {2, 1, "add", {0,1,3}, {1,3}},
@@ -36,7 +36,7 @@ instruction table_instruction[] = {
 
 /* Storing the name and content of the macros in the dynamic array */
 void saving_mcro_data(char *mcro_name, char *mcro_lines) {
-    mcro *new_mcros = realloc(mcros,(number_of_mcros + 1) * sizeof(mcro));
+    Mcro *new_mcros = realloc(mcros,(number_of_mcros + 1) * sizeof(Mcro));
     if (new_mcros == NULL) {
         fprintf(stderr,"MEMORY ERROR: allocation failed");
         exit(EXIT_FAILURE);
@@ -58,6 +58,7 @@ void saving_mcro_data(char *mcro_name, char *mcro_lines) {
         exit(EXIT_FAILURE);
     }
     strcpy(mcros[number_of_mcros].mcro_lines, mcro_lines);
+    //printf("%s%s", mcro_name   , mcro_lines);
     number_of_mcros++;
 }
 
@@ -69,6 +70,7 @@ char *replacing_mcro_name(char *mcro_name) {
          if (strcmp(mcros[i].mcro_name, mcro_name) == 0) {
              return mcros[i].mcro_lines;
          }
+         //printf("%s%s", mcros[i].mcro_name, mcros[i].mcro_lines);
     }
     return NULL;
 }
@@ -89,12 +91,14 @@ void store_mcros( char *filename){
     }
 
     while (fgets(line, sizeof(line), file) != NULL) {
-           split result = split_line(line);
+           Split result = split_line(line);
            if (strncmp(line, "mcro", 4) == 0 && strncmp(result.part1, "mcroend", 7) != 0){
                if (checking_mcro_name(result) == TRUE) {
                    flag = 1;
                    strcpy(mcro_names,line + 4);
                    mcro_names[strcspn(mcro_names, "\n")] = '\0';
+                   Subtracting_spaces(mcro_names);
+                   //printf("%s%s", mcro_names, mcro_line);
                    mcro_lines_size = 0 ;
                    free(mcro_line);
                    mcro_line = NULL;
@@ -131,9 +135,9 @@ void store_mcros( char *filename){
 }
 
 /* The function receives a pointer to the beginning of the line and divides it into 4 parts. */
-split split_line(char *line) {
+Split split_line(char *line) {
     char line_copy [MAX_LINE_LENGTH];
-    static split split_copy_line;
+    static Split split_copy_line;
     static char part1[MAX_LINE_LENGTH], part2[MAX_LINE_LENGTH], part3[MAX_LINE_LENGTH], part4[MAX_LINE_LENGTH];
     strcpy(line_copy, line);
     line_copy[strcspn(line_copy, "\n")] = '\0';
@@ -167,16 +171,38 @@ split split_line(char *line) {
 }
 
 /* Checking the validity of the macro name */
-int checking_mcro_name(split split_copy_line) {
+int checking_mcro_name(Split split_copy_line) {
     int i;
     if (strncmp(split_copy_line.part1, "mcro", 4) == 0) {
+        printf("%s\n", "1");
         if (split_copy_line.part2 == NULL) {
             printf("%s\n","Invalid macro name");
+            printf("%s\n", "1");
             exit(EXIT_FAILURE);
             return FALSE;
         }
     }
+
+    if (strncmp(split_copy_line.part1, "mcro", 4) == 0) {
+        for (i=0; i < number_of_mcros; i++) {
+            if (strcmp(split_copy_line.part2, mcros[i].mcro_name) == 0) {
+                printf("%s\n","Invalid macro name");
+                printf("%s\n", "new");
+                exit(EXIT_FAILURE);
+            }
+        }
+    }
+
+    if (strcmp(split_copy_line.part1, "mcro") != 0 ) {
+        printf("%s\n", "2");
+        if ((strcmp(split_copy_line.part2, "mcro") == 0) || (strcmp(split_copy_line.part3, "mcro") == 0) || (strcmp(split_copy_line.part4, "mcro") == 0)){
+            printf("%s\n","Invalid macro name");
+            exit(EXIT_FAILURE);
+        }
+    }
+
     if (split_copy_line.part2!=NULL && split_copy_line.part3!=NULL){
+            printf("%s\n", "3");
             printf("%s\n","Invalid macro name");
             exit(EXIT_FAILURE);
             return FALSE;
@@ -184,6 +210,7 @@ int checking_mcro_name(split split_copy_line) {
 
     for (i = 0; i<NUM_INSRUCTION; i++) {
         if (strcmp(table_instruction[i].instruction_name,split_copy_line.part2) == 0) {
+            printf("%s\n", "4");
             printf("%s\n","Invalid macro name");
             fflush(stdout);
             exit(EXIT_FAILURE);
@@ -191,6 +218,30 @@ int checking_mcro_name(split split_copy_line) {
         }
     }
 
+    if (checking_register(split_copy_line.part2) == TRUE) {
+        printf("%s\n","Invalid macro name");
+        exit(EXIT_FAILURE);
+    }
+
+    if ((strcmp(split_copy_line.part2,"data") == 0) || (strcmp(split_copy_line.part2,"string") == 0) || (strcmp(split_copy_line.part2,"entry") == 0)||(strcmp(split_copy_line.part2,"extern") == 0)){
+        printf("%s\n", "5");
+        printf("%s\n","Invalid macro name");
+        exit(EXIT_FAILURE);
+    }
+
+    char *p = split_copy_line.part2;
+    i = 0;
+    while (p[i] != '\0'){
+           if ((isalnum(p[i]) == TRUE)|| (p[i] == '_')) {
+               printf("%s\n", "ok");
+               i++;
+           }
+           else {
+                 printf("%s\n", "basa");
+                 printf("%s\n","Invalid macro name");
+                 exit(EXIT_FAILURE);
+           }
+    }
      return TRUE;
 }
 
@@ -198,6 +249,7 @@ int checking_mcro_name(split split_copy_line) {
 void create_file_am(char *inputfile, char *outputfile) {
   FILE *file_as;
   FILE *file_am;
+  int flag = 0;
 
   char full_filename_as[16] = {0};
   char full_filename_am[16] = {0};
@@ -212,24 +264,33 @@ void create_file_am(char *inputfile, char *outputfile) {
   file_am = fopen(outputfile, "w");
 
   if (file_as == NULL || file_am == NULL) {
-     fprintf(stderr,"FILE ERROR: Failed to open file");
-     exit(EXIT_FAILURE);
+      fprintf(stderr,"FILE ERROR: Failed to open file");
+      exit(EXIT_FAILURE);
   }
   while(fgets(line_of_file, sizeof(line_of_file), file_as) != NULL){
-        split result = split_line(line_of_file);
+        Split result = split_line(line_of_file);
+        //printf("%s\n",result.part1);
+
+        if (strncmp(result.part1, "mcroend", 7) == 0) {
+          flag = 0;
+          continue;
+        }
 
         if (strncmp(result.part1, "mcro", 4) == 0) {
+            flag = 1;
             continue;
         }
-        if (strncmp(line_of_file, "mcroend", 7) == 0) {
-            continue;
-        }
+
+       if (flag == 1) {
+           continue;
+       }
+        Subtracting_spaces(result.part1);
         char *mcro_lines = replacing_mcro_name(result.part1);
         if (mcro_lines != NULL) {
+            //printf("%s",mcro_lines);
             fputs(mcro_lines, file_am);
             continue;
-          }
-
+        }
 
         fputs(line_of_file, file_am);
   }
@@ -247,3 +308,43 @@ void release_memory(){
     free(mcros);
 }
 
+/* Removing spaces from the beginning of a word. */
+void Subtracting_spaces(char *string) {
+    int i = 0;
+    while (isspace((unsigned char)string[i])) {
+        i++;
+    }
+    if (i > 0) {
+        memmove(string, string + i,strlen(string)- i + 1);
+    }
+    //printf("%s\n",string);
+}
+
+/* Line length check. */
+/*int line_length(char *line) {
+    int count = 0;
+    while (*(line)!= '\n') {
+        line++;
+        count++;
+    }
+    if (count > 80) {
+        return FALSE;
+    }
+    return TRUE;
+}*/
+
+
+/*Register integrity check*/
+int checking_register(char *x) {
+    char i;
+    if (strlen(x) == 2){
+        if ((*x) == 'r') {
+            for (i= '0'; i < '8'; i++) {
+                 if (*(x + 1) == i ) {
+                         return TRUE;
+                 }
+            }
+        }
+    }
+   return FALSE;
+}
