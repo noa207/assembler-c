@@ -1,24 +1,15 @@
 #include "assembler.h"
-struct label{
-    char *label_name;
-    int label_address;
-    char *label_character;
-}
 
 boolean check_is_define_label_valid(char *label_name){
   int i = 0;
+  /*if labal == instruction or labal == mcro*/
   if(strlen(label_name) > 31){
     return FALSE;
   } if(!isalpha(label_name[0])){
     return FALSE;
-  } if (!check_not_protected_word(mcro_name)){
-    return FALSE;
-  } if(check_label_exist(label_name)){
-    return FALSE;
-  }
-  else{
+  } else{
     while(label_name[i] != '\0' && label_name[i] != ':'){
-      if(!isalnum(label_name[i])){
+      if(isalnum(label_name[i])){
         return FALSE;
       } else{
         i++;
@@ -27,7 +18,9 @@ boolean check_is_define_label_valid(char *label_name){
   }
   /*add if the label not equal to :
   mcro 
- */
+  instruction
+  directive 
+  register*/
 }
 struct Label* create_label(char label_name, int label_address, label_type label_character){
   struct Label* new_label = (struct Label*)malloc(sizeof(struct Label));
@@ -52,7 +45,7 @@ struct Label* insert_label_to_table(struct Label* label_list, char label_name, i
   return label_list;
 }
 
-boolean check_label_exist(struct Label* label_list, char *label_name){
+boolean check_label_exist(struct Label* label_list, char label_name){
   if(label_list == NULL){
     return FALSE;
   }
@@ -65,6 +58,3 @@ boolean check_label_exist(struct Label* label_list, char *label_name){
   return FALSE;
 
 }
-
-
-

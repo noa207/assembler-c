@@ -317,7 +317,7 @@ void Subtracting_spaces(char *string) {
     if (i > 0) {
         memmove(string, string + i,strlen(string)- i + 1);
     }
-    //printf("%s\n",string);
+    
 }
 
 /* Line length check. */
