@@ -109,7 +109,6 @@ char **split_line(char *string_of_line){
     fprintf(stderr, "MEMORY ERROR: memory allocation is faild\n");
     return NULL;
   }
-
   strcpy(line_copy, string_of_line);
   split_token = strtok(line_copy, delimiter);
 
@@ -143,7 +142,6 @@ char **split_line(char *string_of_line){
   free(line_copy);
   return split_line_words;
 }
-
 
 void free_split_line_function(char **split_line_words){
   int i = 0;
