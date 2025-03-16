@@ -137,13 +137,14 @@ char **split_line(char *string_of_line){
 
 */
 boolean check_not_protected_word(char *variable_name){
+  int i = 0;
   char *protected_words[] = {"mov", "cmp", "add", "sub", "lea", "clr", "not", "inc", "dec", "jmp", "bne", "jsr", "red", "prn", "rts", "stop", "data" , "string", "entry", "extern" , "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7"};
   while (protected_words[i] != NULL){
-    if (strcmp(mcro_name, protected_words[i]) == 0) { /*check if is it protected word*/
-      fprintf(stderr,"STRING ERROR:  %s Invalid macro name - name of instruction/ directive/ register\n", mcro_name);
+    if (strcmp(variable_name, protected_words[i]) == 0) { /*check if is it protected word*/
+      fprintf(stderr,"STRING ERROR:  %s Invalid macro name - name of instruction/ directive/ register\n", variable_name);
       return FALSE;
     } else{
-      i++:
+      i++;
     }
   }
   return TRUE;

@@ -8,7 +8,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <stddef.h>
-
+/*
 #define MAX_LINE_LENGTH 80
 #define NUM_INSRUCTION 16
 
@@ -35,7 +35,7 @@ Instruction table_instruction[] = {
 };
 
 /* Storing the name and content of the macros in the dynamic array */
-void saving_mcro_data(char *mcro_name, char *mcro_lines) {
+/*void saving_mcro_data(char *mcro_name, char *mcro_lines) {
     Mcro *new_mcros = realloc(mcros,(number_of_mcros + 1) * sizeof(Mcro));
     if (new_mcros == NULL) {
         fprintf(stderr,"MEMORY ERROR: allocation failed");
@@ -44,7 +44,7 @@ void saving_mcro_data(char *mcro_name, char *mcro_lines) {
     mcros = new_mcros;
 
     /* Allocating memory for the macro name and store */
-    mcros[number_of_mcros].mcro_name = malloc(strlen(mcro_name) + 1);
+    /*mcros[number_of_mcros].mcro_name = malloc(strlen(mcro_name) + 1);
     if (mcros[number_of_mcros].mcro_name == NULL) {
         fprintf(stderr,"MEMORY ERROR: allocation failed - mcro name");
         exit(EXIT_FAILURE);
@@ -52,7 +52,7 @@ void saving_mcro_data(char *mcro_name, char *mcro_lines) {
     strcpy(mcros[number_of_mcros].mcro_name, mcro_name);
 
     /* Allocating memory for the macro content and store */
-    mcros[number_of_mcros].mcro_lines = malloc(strlen(mcro_lines) + 1);
+    /*mcros[number_of_mcros].mcro_lines = malloc(strlen(mcro_lines) + 1);
     if (mcros[number_of_mcros].mcro_lines == NULL) {
         fprintf(stderr,"MEMORY ERROR: allocation failed - mcro lines");
         exit(EXIT_FAILURE);
@@ -64,7 +64,7 @@ void saving_mcro_data(char *mcro_name, char *mcro_lines) {
 
 
 /* The function receives a pointer to a name and checks whether the name is in the macro array, if so, replaces the line with the macro value. ֿֿ*/
-char *replacing_mcro_name(char *mcro_name) {
+/*char *replacing_mcro_name(char *mcro_name) {
     int i;
     for (i = 0; i<number_of_mcros ; i++) {
          if (strcmp(mcros[i].mcro_name, mcro_name) == 0) {
@@ -76,7 +76,7 @@ char *replacing_mcro_name(char *mcro_name) {
 }
 
 /* The function traverses the file line by line and stores the macros. */
-void store_mcros( char *filename){
+/*void store_mcros( char *filename){
     char line[MAX_LINE_LENGTH];
     char mcro_names[MAX_LINE_LENGTH];
     char *mcro_line = NULL;
@@ -84,7 +84,7 @@ void store_mcros( char *filename){
     int flag = 0; /*Indicates inside the macro*/
 
 
-    FILE *file = fopen(filename, "r");
+    /*FILE *file = fopen(filename, "r");
     if (file == NULL) {
        fprintf(stderr,"FILE ERROR: Failed to open file");
        exit(EXIT_FAILURE);
@@ -135,7 +135,7 @@ void store_mcros( char *filename){
 }
 
 /* The function receives a pointer to the beginning of the line and divides it into 4 parts. */
-Split split_line(char *line) {
+/*Split split_line(char *line) {
     char line_copy [MAX_LINE_LENGTH];
     static Split split_copy_line;
     static char part1[MAX_LINE_LENGTH], part2[MAX_LINE_LENGTH], part3[MAX_LINE_LENGTH], part4[MAX_LINE_LENGTH];
@@ -171,7 +171,7 @@ Split split_line(char *line) {
 }
 
 /* Checking the validity of the macro name */
-int checking_mcro_name(Split split_copy_line) {
+/*int checking_mcro_name(Split split_copy_line) {
     int i;
     if (strncmp(split_copy_line.part1, "mcro", 4) == 0) {
         printf("%s\n", "1");
@@ -246,7 +246,7 @@ int checking_mcro_name(Split split_copy_line) {
 }
 
 /* Creating a new file after deploying macros */
-void create_file_am(char *inputfile, char *outputfile) {
+/*void create_file_am(char *inputfile, char *outputfile) {
   FILE *file_as;
   FILE *file_am;
   int flag = 0;
@@ -299,7 +299,7 @@ void create_file_am(char *inputfile, char *outputfile) {
 }
 
 /* Release of pointers */
-void release_memory(){
+/*void release_memory(){
     int i;
     for (i = 0; i<number_of_mcros; i++){
          free(mcros[i].mcro_name);
@@ -309,7 +309,7 @@ void release_memory(){
 }
 
 /* Removing spaces from the beginning of a word. */
-void Subtracting_spaces(char *string) {
+/*void Subtracting_spaces(char *string) {
     int i = 0;
     while (isspace((unsigned char)string[i])) {
         i++;
@@ -335,7 +335,7 @@ void Subtracting_spaces(char *string) {
 
 
 /*Register integrity check*/
-int checking_register(char *x) {
+/*int checking_register(char *x) {
     char i;
     if (strlen(x) == 2){
         if ((*x) == 'r') {
@@ -347,4 +347,4 @@ int checking_register(char *x) {
         }
     }
    return FALSE;
-}
+}*/

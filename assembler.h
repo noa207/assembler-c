@@ -150,11 +150,12 @@ boolean mcro_line_valid(char **array_of_line, int count);
 boolean checking_mcro_name(char *mcro_name);
 
 
-char *replacing_mcro_name(char *mcro_name);
+char *replacing_mcro_name(char *mcro_name, int number_of_mcros);
 void Subtracting_spaces(char *string);
-void saving_mcro_data(char *mcro_name, char *mcro_lines);
+void saving_mcro_data(char *mcro_name, char *mcro_lines, int number_of_lines);
 
-void release_memory();
+//void release_memory();
+boolean macro_array_scan( char *string);
 
 
 /*
