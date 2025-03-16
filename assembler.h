@@ -154,10 +154,12 @@ char *replacing_mcro_name(char *mcro_name, int number_of_mcros);
 void Subtracting_spaces(char *string);
 void saving_mcro_data(char *mcro_name, char *mcro_lines, int number_of_lines);
 
-//void release_memory();
+/*void release_memory();*/
 boolean macro_array_scan( char *string);
+void free_split_line_function(char **split_line_words);
 
-
+boolean whitspace_line(char *string);
+char *word_split(char *string, char delimiter);
 /*
 Split split_line(char *line);
 int checking_mcro_name(Split split_copy_line);

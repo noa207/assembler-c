@@ -95,15 +95,24 @@ char **split_line(char *string_of_line){
   char *line_copy;
   char *split_token;
   char **split_line_words = NULL;
-  char *delimiter = " \t";
-  string_of_line[strcspn(string_of_line, "\n")] = '\0';
-  line_copy = (char *)malloc(strlen(string_of_line) + 1); 
+  char *delimiter = " ";
+  size_t length = strlen(string_of_line);
+  if(string_of_line[length -2] == '\r'){
+    string_of_line[length - 2] = '\0';
+  }
+  string_of_line[length - 1] = '\0';
+  printf("the last char '%d %d'\n",string_of_line[length - 2], string_of_line[length - 1]);
+  printf("the line - %s\n",string_of_line);
+  line_copy = (char *)malloc(strlen(string_of_line) + 1);
+
   if( line_copy == NULL){
     fprintf(stderr, "MEMORY ERROR: memory allocation is faild\n");
     return NULL;
   }
+
   strcpy(line_copy, string_of_line);
   split_token = strtok(line_copy, delimiter);
+
   while(split_token != NULL){
     printf( " %s\n", split_token );
     
@@ -112,22 +121,37 @@ char **split_line(char *string_of_line){
     if(!split_line_words){
       fprintf(stderr, "MEMORY ERROR: memory allocation is faild\n");
       free(line_copy);
+      free(split_line_words);
       return NULL;
     }
     split_line_words[count_tokens] = malloc(strlen(split_token) + 1);
     if(!split_line_words[count_tokens]){
       fprintf(stderr, "MEMORY ERROR: memory allocation is faild\n");
       free(line_copy);
+      free(split_line_words);
       return NULL;
     }
+    printf(" %s is ok\n",split_token);
     strcpy(split_line_words[count_tokens], split_token);
+    printf("the word %s is in split_line_words %d count\n",split_line_words[count_tokens], count_tokens);
     split_line_words[count_tokens][strlen(split_token)] = '\0';
     count_tokens++;
     split_token = strtok(NULL, delimiter);
-    
+    printf("check next split %s\n", split_token);
   }
+  printf("finish to check split");
   free(line_copy);
   return split_line_words;
+}
+
+
+void free_split_line_function(char **split_line_words){
+  int i = 0;
+  while(split_line_words[i] != NULL){
+    free(split_line_words[i]);
+    i++;
+  }
+  free(split_line_words);
 }
 /* This function check if the variable is not protected word
     input:

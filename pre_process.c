@@ -2,7 +2,7 @@
 
 /*find good place for them*/
 Mcro *mcros = NULL;
-//int number_of_mcros = 0;
+/*int number_of_mcros = 0;*/
 
 
 /* This function implement the pre process of the assembler
@@ -13,7 +13,8 @@ Mcro *mcros = NULL;
 */
 int pre_process(char *filename) {
   FILE *file;
-  char **tokens;
+  /*char **tokens;*/
+  int line_counter = 0;
   char *full_filename_as = (char *)malloc(strlen(filename) + 4); /*allocate memory for the fullname as file*/
   char *full_filename_am = (char *)malloc(strlen(filename) + 4); /*allocate memory for the fullname am file*/
   char line_of_file[MAX_LINE_LENGTH] = {0};
@@ -32,50 +33,53 @@ int pre_process(char *filename) {
   } else{
   while (fgets(line_of_file, sizeof(line_of_file), file) != NULL){ /*read each line in the file*/
 
-    tokens = split_line(line_of_file);
-    if (strncmp(line_of_file, "mcro", 4) == 0 && strncmp(line_of_file, "mcroend", 7) != 0){ /*how its work? i didnt understand*/
-      if (checking_mcro_name(tokens[1]) && mcro_line_valid(tokens, 2)) { /*check if is macro name of the define valid and there is no other words after it*/
+    /*tokens = split_line(line_of_file);*/
+    Subtracting_spaces(line_of_file);
+    if (strncmp(line_of_file, "mcro", 4) == 0 &&  strncmp(line_of_file, "mcroend", 7) != 0){
+        *(line_of_file + 4);
+        printf("new string %s\n", line_of_file);
+        Subtracting_spaces(line_of_file);
+        if (checking_mcro_name(word_split(line_of_file)) && whitspace_line(*(line_of_file + strlen(word_split(line_of_file ,' '))))) { /*check if is macro name of the define valid and there is no other words after it*/
           flag = 1;
-          //
           strcpy(mcro_name_variable,line_of_file + 4); /* pointer to the part after the word mcro for his name */
           mcro_name_variable[strcspn(mcro_name_variable, "\n")] = '\0';
           Subtracting_spaces(mcro_name_variable);/* save the name without spaces before it */
           mcro_lines_size = 0 ;
-          //free(mcro_line);
+          /*free(mcro_line);*/
           mcro_line = NULL;
-      }
-  } if (get_index_of_mcro(tokens, "mcro") > 0){ /*check if there is words before define mcro*/
+        }
+    } else if (strstr(line_of_file, " mcro ") != NULL || strstr(line_of_file, " macroend ") != NULL){ /*check if there is words before define mcro*/
       error_flag = 1;
-      fprintf(stderr,"STRING ERROR: Unwanted chars before mcro\n");     
-    }
-  else if (flag && strncmp(line_of_file, "mcroend", 7) == 0 &&  mcro_line_valid(tokens, 1)){ /*check the macro name of the define and there is no other words after it*/
+      fprintf(stderr,"[%d] STRING ERROR: Unwanted chars before mcro or mcroend\n", line_counter);     
+    } else if (flag && strncmp(line_of_file, "mcroend", 7) == 0){ /*check the macro name of the define and there is no other words after it*/
+      *(line_of_file + 7);
+      Subtracting_spaces(line_of_file);
+      if (whitspace_line(*(line_of_file + strlen(word_split(line_of_file, ' '))))){
         flag = 0;
         if (mcro_line != NULL) {
-            saving_mcro_data(mcro_name_variable, mcro_line, number_of_mcros);
+          saving_mcro_data(mcro_name_variable, mcro_line, number_of_mcros);
         }
         else {
-            saving_mcro_data(mcro_name_variable, "", number_of_mcros);
+          saving_mcro_data(mcro_name_variable, "", number_of_mcros);
         }
         free(mcro_line);
         mcro_line = NULL;
+      }
+    }
+    else if (flag == 1){ /*what this flag does?*/
+      line_length = strlen(line_of_file);
+      new_mcro_lines = realloc(mcro_line, mcro_lines_size + line_length + 1);
+      if (new_mcro_lines == NULL) {
+        error_flag = 1;
+        fprintf(stderr,"[%d] MEMORY ERROR: allocation failed - mcro lines",line_counter);
+      }
+      mcro_line = new_mcro_lines;
+      strcpy(mcro_line + mcro_lines_size, line_of_file);
+      mcro_lines_size = mcro_lines_size + line_length;
+    }
+    line_counter++;         
   }
-  else if (flag == 1){ /*what this flag does?*/
-        line_length = strlen(line_of_file);
-        new_mcro_lines = realloc(mcro_line, mcro_lines_size + line_length + 1);
-        if (new_mcro_lines == NULL) {
-            error_flag = 1;
-            fprintf(stderr,"MEMORY ERROR: allocation failed - mcro lines");
-        }
-
-        mcro_line = new_mcro_lines;
-        strcpy(mcro_line + mcro_lines_size, line_of_file);
-        mcro_lines_size = mcro_lines_size + line_length;
-  } if (get_index_of_mcro(tokens, "mcroend") > 0){ /*check if there is words before define mcro*/
-    error_flag = 1;
-    fprintf(stderr,"STRING ERROR: Unwanted chars before mcroend\n");
   }
-}
-}
   if(error_flag == 0){ /*check if were errors while we read the file, if error_flag is zero its means the as file is ok*/
     create_am_file(full_filename_as, full_filename_am);
   } else{
@@ -84,7 +88,7 @@ int pre_process(char *filename) {
   /*release_memory();*/ /*shos errors*/
   free(full_filename_as);
   free(full_filename_am);
-  free(tokens);
+  
   free(mcro_line);
   fclose(file);
   return 0;
@@ -101,7 +105,7 @@ void create_am_file(char *input_filename, char *output_filename){
   FILE *file_input;
   FILE *file_output;
   int flag = 0;
-  char **tokens;
+  /*char **tokens;*/
   char line_of_file[MAX_LINE_LENGTH] = {0};
   char *mcro_lines;
   int count_replacements = 0;
@@ -112,13 +116,12 @@ void create_am_file(char *input_filename, char *output_filename){
     exit(0);
   }
   while(fgets(line_of_file, sizeof(line_of_file), file_input) != NULL){
-    tokens = split_line(line_of_file);
-    if (strncmp(tokens[0], "mcroend", 7) == 0) {
+    if (strncmp(line_of_file, "mcroend", 7) == 0) {
       flag = 0;
       continue;
     }
 
-    if (strncmp(tokens[0], "mcro", 4) == 0) { /*what is that?*/
+    if (strncmp(line_of_file, "mcro", 4) == 0) { /*what is that?*/
         flag = 1;
         continue;
     }
@@ -126,17 +129,16 @@ void create_am_file(char *input_filename, char *output_filename){
     if (flag == 1) { /*what is that?*/
         continue;
     }
-    Subtracting_spaces(tokens[0]); /*need to change*/
-    mcro_lines = replacing_mcro_name(tokens[0], count_replacements);/*need to change*/
+    Subtracting_spaces(line_of_file); /*need to change*/
+
+    mcro_lines = replacing_mcro_name(word_split(line_of_file, ' '), count_replacements);/*need to change*/
     count_replacements++;
     if (mcro_lines != NULL) {
         fputs(mcro_lines, file_output);
         continue;
     }
-
     fputs(line_of_file, file_output);
 }
-  free(tokens);
   fclose(file_input);
   fclose(file_output);
 }
@@ -190,8 +192,8 @@ boolean checking_mcro_name(char *mcro_name) {
     return FALSE;
   }
   if (macro_array_scan(mcro_name) == 0) {
-    fprintf(stderr,"STRING ERROR:  %s Invalid macro name - already exist\n", mcro_name);
-    return FALSE;
+      fprintf(stderr,"STRING ERROR:  %s Invalid macro name - already exist\n", mcro_name);
+      return FALSE;
   }
   if (!check_not_protected_word(mcro_name)){
     return FALSE;
@@ -241,7 +243,7 @@ void saving_mcro_data(char *mcro_name, char *mcro_lines, int number_of_mcros) {
   Mcro *new_mcros = realloc(mcros,(number_of_mcros + 1) * sizeof(Mcro));
   if (new_mcros == NULL) {
       fprintf(stderr,"MEMORY ERROR: allocation failed");
-      //exit(EXIT_FAILURE);
+      /*exit(EXIT_FAILURE);*/
       return;
   }
   mcros = new_mcros;
@@ -250,7 +252,7 @@ void saving_mcro_data(char *mcro_name, char *mcro_lines, int number_of_mcros) {
   mcros[number_of_mcros].mcro_name = malloc(strlen(mcro_name) + 1);
   if (mcros[number_of_mcros].mcro_name == NULL) {
       fprintf(stderr,"MEMORY ERROR: allocation failed - mcro name");
-      //exit(EXIT_FAILURE);
+      /*exit(EXIT_FAILURE);*/
       return;
   }
   strcpy(mcros[number_of_mcros].mcro_name, mcro_name);
@@ -259,7 +261,7 @@ void saving_mcro_data(char *mcro_name, char *mcro_lines, int number_of_mcros) {
   mcros[number_of_mcros].mcro_lines = malloc(strlen(mcro_lines) + 1);
   if (mcros[number_of_mcros].mcro_lines == NULL) {
       fprintf(stderr,"MEMORY ERROR: allocation failed - mcro lines");
-      //exit(EXIT_FAILURE);
+      /*exit(EXIT_FAILURE);*/
       return;
   }
   strcpy(mcros[number_of_mcros].mcro_lines, mcro_lines);
@@ -291,4 +293,23 @@ boolean macro_array_scan( char *string){
   return TRUE;
 }
 
+
+char *word_split(char *string, char delimiter){
+  char *split_token;
+  split_token = strtok(string, delimiter);
+  return split_token;
+
+}
+
+
+boolean whitspace_line(char *string){
+  int i = 0;
+  while(string[i] != '\0'){
+    if(!isspace(string[i])){
+      return FALSE;
+    }
+    i++;
+  }
+  return TRUE;
+}
 
