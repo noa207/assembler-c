@@ -24,7 +24,7 @@ char **split_line(char *string_of_line);
 /*
 
 */
-/*void split_line_memory_release(char **split_line_words);*/
+void release_memory(char **tokens);
 
 /* This function check if the variable is not protected word
     input:

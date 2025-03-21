@@ -63,10 +63,10 @@ char **split_line(char *string_of_line){
   free(line_copy);
   return split_line_words;
 }
+
 /*
 
 */
-/*
 void release_memory(char **tokens){
   int i = 0;
   for ( i = 0; tokens[i] != NULL; i++) {
@@ -74,6 +74,7 @@ void release_memory(char **tokens){
   }
   free(tokens);
 }
+
 /*
 void split_line_memory_release(char **split_line_words){
   int i = 0;
