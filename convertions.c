@@ -1,20 +1,4 @@
-#include "assembler.h"
-#define BITS_NUMBER 6
-int main(int argc, char *argv[]){ 
-  char hex ='0';
-  char *binary, *binary_bits_word;
-  char *word_hex = malloc(6);
-  printf("the number is %s \n",decimal_to_binary(7,6));
-  binary = "0101";
-  hex = convert_binary_to_hex(binary);
-  printf("the number is %c \n",hex);
-  binary_bits_word = "000000110011110000010100";
-  word_hex = convert_word_binary_to_hex(binary_bits_word);
-  printf("the number is %s \n",word_hex);
-  free(word_hex);
-  
-  return 0;
-}
+#include "conventions.h"
 
 /*This function convert decimal number to binary number and return binary number
   input:

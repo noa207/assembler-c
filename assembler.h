@@ -7,23 +7,17 @@
 
 #define MAX_LINE_LENGTH 80
 #define NUM_INSRUCTION 16
+#define NUM_PROTECTED_WORDS 26
 
 typedef enum { FALSE, TRUE} boolean;
-typedef enum {Data, String, Entry, Extern} directive;
+/* typedef enum {Data, String, Entry, Extern} directive; */
 
 typedef struct {
     char *mcro_name;
     char *mcro_lines;
 } Mcro;
 
-/*
-typedef struct{
-    char *part1;
-    char *part2;
-    char *part3;
-    char *part4;
-} Split;
-*/
+
 typedef struct {
     int opcode;
     int funct;
@@ -50,8 +44,8 @@ const Instruction table_instruction[] = {
     {13, {}, "prn", {}, {0,1,3}},
     {14, {}, "rts", {}, {}},
     {15, {}, "stop", {}, {}}
-};
-*/
+};*/
+
 
 /* This function create full name of the file with extension
     input:
@@ -105,15 +99,6 @@ boolean check_not_protected_word(char *variable_name);
 */
 int pre_process(char *filename);
 
-/* This function create am file from as file
-    input:
-      full_filename_as- the name of the file we read from it, source file
-      full_filename_am- the name of the file we write to him, destination file
-    output:
-      if this process going well it will continue to the next pass, else finish to work with this file
-*/
-void create_am_file(char *input_filename, char *output_filename);
-
 /* This function check if the line of define mcro is correct 
     input:
       array_of_line- the line after we split to array of strings
@@ -141,7 +126,7 @@ int get_index_of_mcro(char **array_of_line, char *mcro_define);
 */
 boolean mcro_line_valid(char **array_of_line, int count);
 
-/* This function check if if the mcro name is valid 
+/* This function check if the mcro name is valid
     input:
       mcro_name- the mcro name we want to check
     output:
@@ -149,18 +134,39 @@ boolean mcro_line_valid(char **array_of_line, int count);
 */
 boolean checking_mcro_name(char *mcro_name);
 
+/*This function check if the token in the line is a mcro name
+    input:
+       mcro_name- the token we want to check
+    output:
+       return the mcro content
+*/
+char *replacing_mcro_name(char *mcro_name);
 
-char *replacing_mcro_name(char *mcro_name, int number_of_mcros);
+/*This function cleans up spaces from the beginning of a word
+    input:
+       token - the token we want to clean from spaces
+*/
 void Subtracting_spaces(char *string);
-void saving_mcro_data(char *mcro_name, char *mcro_lines, int number_of_lines);
+
+/*This function store mcro name and mcro content
+    input:
+       mcro_name- the name of the mcro
+       mcro_lines -  the mcro content
+*/
+void saving_mcro_data(char *mcro_name, char *mcro_lines);
+
+/*This function release_memory
+    input:
+       **tokens -
+*/
+void release_memory(char **tokens);
 
 /*void release_memory();*/
-boolean macro_array_scan( char *string);
-void free_split_line_function(char **split_line_words);
+boolean mcro_array_scan( char *string);
 
-boolean whitspace_line(char *string);
+/*void free_split_line_function(char **split_line_words);
+//boolean whitspace_line(char *string);
 char *word_split(char *string, char delimiter);
-/*
 Split split_line(char *line);
 int checking_mcro_name(Split split_copy_line);
 void saving_mcro_data(char *mcro_name, char *mcro_lines);
