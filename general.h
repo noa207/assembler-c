@@ -36,11 +36,11 @@ void release_memory(char **tokens);
 */
 boolean check_not_protected_word(char *variable_name);
 
-/*This function cleans up spaces from the beginning of a word
-    input:
-       token - the token we want to clean from spaces
-*/
-void Subtracting_spaces(char *string);
+/* This function ger a pointer to string and removes unnecessary spaces
+input:
+    line - line of the file
+/* this function was taken from mmn 22 and was divided by void read_comp_parsing(char *command)*/
+void clean_spaces (char *line);
 
 
 #endif

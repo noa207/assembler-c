@@ -7,7 +7,7 @@ a
 mcroendigi
 
 b
-mcro _a
+mcro b
 label: odfjepi
 maya
 mcroend

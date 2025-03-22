@@ -63,10 +63,11 @@ MacrosArray mcro_array;
                 flag = 1;
                 strcpy(mcro_names, tokens[1]);
                 mcro_names[strcspn(mcro_names, "\n")] = '\0';
-                Subtracting_spaces(mcro_names);
+                clean_spaces(mcro_names);
                 mcro_lines_size = 0;
                 free(mcro_line);
                 mcro_line = NULL;
+                continue;
             } else {
                 error_flag = 1;
                 fprintf(stdout,"ERROR: First line of macro is not valid\n");

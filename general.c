@@ -99,13 +99,18 @@ boolean check_not_protected_word(char *variable_name){
   return TRUE;
 }
 
-/* Removing spaces from the beginning of a word. */
-void Subtracting_spaces(char *string) {
-  int i = 0;
-  while (isspace((unsigned char)string[i])) {
-    i++;
-  }
-  if (i > 0) {
-    memmove(string, string + i,strlen(string) - i + 1);
-  }
+/* This function ger a pointer to string and removes unnecessary spaces
+input:
+    line - line of the file
+/* this function was taken from mmn 22 and was divided by void read_comp_parsing(char *command)*/
+void clean_spaces (char *line) {
+    char *end;
+    /*Trim spaces*/
+    while (*line == ' ') line++;
+
+    /*Remove spaces*/
+    end = line + strlen(line) - 1;
+    while (end > line && isspace(*end)) {
+        *end-- = '\0';
+    }
 }
