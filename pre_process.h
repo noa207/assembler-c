@@ -17,8 +17,6 @@ typedef struct MacrosArray {
   int number_of_mcros;
 } MacrosArray;
 
-MacrosArray Macros_Array;
-
 /* This function implement the pre process of the assembler
     input:
       filename- the name of the file we work with
@@ -83,8 +81,7 @@ void mcro_data_saving(char *mcro_name, char *mcro_lines);
 */
 boolean mcro_array_scan_result( char *string);
 
-/*
-*/
-void release_memory(char **tokens);
+/* This function frees the memory allocated of mcro array */
+void mcro_memory_release(void);
 
 #endif

@@ -21,8 +21,9 @@ typedef enum { FALSE, TRUE} boolean;
 */
 char **split_line(char *string_of_line);
 
-/*
-
+/* This function frees the memory allocated
+   input:
+      pointer to the beginning of the list
 */
 void release_memory(char **tokens);
 

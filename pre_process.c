@@ -9,6 +9,10 @@
        	'0' if no issues with input file processing
 	   	'1' if there was an error in input file processing
  */
+
+ /* Dynamically allocated array for Mcros */
+MacrosArray mcro_array;
+
  int pre_process(char *filename) {
     FILE *file_input;
     FILE *file_output;
@@ -53,7 +57,7 @@
           fprintf(stdout,"ERROR: Unwanted chars before mcro\n");
         }
 
-        /* Check line for "mcro" start */
+        /* check line for "mcro" start */
         if (tokens[0] && strcmp(tokens[0], "mcro") == 0) {
             if (tokens[1] && mcro_name_checking(tokens[1]) && mcro_line_valid(tokens, 2)) {
                 flag = 1;
@@ -75,7 +79,7 @@
           fprintf(stdout,"ERROR: Unwanted chars before mcro\n");
         }
 
-         /* Check line for "mcroend" */
+         /* check line for "mcroend" */
          else if (flag && (strncmp(line_of_file, "mcroend", 7) == 0)){
            if (strcmp(tokens[0], "mcroend") == 0){
              flag = 0;
@@ -95,7 +99,7 @@
            }
          }
 
-        /* Inside a macro definition */
+        /* inside a macro definition */
         else if (flag == 1) {
             size_t line_length = strlen(line_of_file);
             new_mcro_lines = realloc(mcro_line, mcro_lines_size + line_length + 1);
@@ -115,29 +119,29 @@
             mcro_line[mcro_lines_size] = '\0';
         }
 
-        /* Copy line from input file to output .am file */
+        /* copy line from input file to output .am file */
         if (flag == 0) {
 
-        	/* Skip empty lines (only whitespace or `\n`) */
+        	/* skip empty lines (only whitespace or `\n`) */
         	char *trimmed_line = line_of_file;
         	while (*trimmed_line && isspace((unsigned char)*trimmed_line)) {
             	trimmed_line++;  /* Move past whitespace */
         	}
         	if (*trimmed_line == '\0') {
-            	continue;  /* Skip writing this line */
+            	continue;  /* skip writing this line */
         	}
 
-            /* Ensure the line has a newline before writing */
+            /* ensure the line has a newline before writing */
         	len = strlen(line_of_file);
         	if (len > 0 && line_of_file[len - 1] != '\n') {
-            	strcat(line_of_file, "\n");  /*  Append newline if missing */
+            	strcat(line_of_file, "\n");  /* append newline if missing */
         	}
 
             macro_replacement = mcro_insert_data(tokens[0]);
 
-            /* If the line is macro name, then replace it with macro content */
+            /* if the line is macro name, then replace it with macro content */
             if (macro_replacement != NULL) {
-                fputs(macro_replacement, file_output);  /*  Replace the macro */
+                fputs(macro_replacement, file_output);  /* replace the macro */
             } else {
                 fputs(line_of_file, file_output);
             }
@@ -145,9 +149,10 @@
         release_memory(tokens);
     }
 
-    /* If error in input file, then remove output file */
+    /* if error in input file, then remove output file */
     if (error_flag == 1) {
         remove(full_filename_am);
+        mcro_memory_release();
         return 1;
     }
 
@@ -205,16 +210,20 @@
      fprintf(stdout,"ERROR:  %s Invalid macro name - not exist\n", mcro_name);
      return FALSE;
    }
+
    if (strlen(mcro_name) > MAX_LENGTH_OF_MCRO_NAME){
      fprintf(stdout,"ERROR:  %s Invalid macro name - Invalid name \n", mcro_name);
      return FALSE;
    }
-   if (mcro_array_scan_result(mcro_name) != TRUE){
+
+   if (!mcro_array_scan_result(mcro_name)){
      return FALSE;
    }
+
    if (!check_not_protected_word(mcro_name)){
      return FALSE;
    }
+
    p = mcro_name;
    i = 0;
    if(isalpha(p[0]) || p[0] == '_'){
@@ -235,9 +244,9 @@
  /* The function receives a pointer to a name and checks whether the name is in the macro array, if so, replaces the line with the macro value. ֿֿ*/
  char *mcro_insert_data(char *mcro_name) {
    int i;
-   for (i = 0; i< Macros_Array.number_of_mcros; i++) {
-        if (strcmp(Macros_Array.mcros[i].mcro_name, mcro_name) == 0) {
-            return (Macros_Array.mcros[i].mcro_lines);
+   for (i = 0; i< mcro_array.number_of_mcros; i++) {
+        if (strcmp(mcro_array.mcros[i].mcro_name, mcro_name) == 0) {
+            return (mcro_array.mcros[i].mcro_lines);
         }
    }
    return NULL;
@@ -246,48 +255,48 @@
  /* Storing the name and content of the macros in the dynamic array */
  void mcro_data_saving(char *mcro_name, char *mcro_lines) {
    size_t len;
-   Mcro *new_mcros = realloc(Macros_Array.mcros,(Macros_Array.number_of_mcros + 1) * sizeof(Mcro));
+   Mcro *new_mcros = realloc(mcro_array.mcros,(mcro_array.number_of_mcros + 1) * sizeof(Mcro));
    if (new_mcros == NULL) {
        fprintf(stdout,"ERROR: memory allocation failed");
        exit(EXIT_FAILURE);
    }
-   Macros_Array.mcros = new_mcros;
+   mcro_array.mcros = new_mcros;
 
-   /* Allocating memory for the macro name and store */
-   Macros_Array.mcros[Macros_Array.number_of_mcros].mcro_name = malloc(strlen(mcro_name) + 1);
-   if (Macros_Array.mcros[Macros_Array.number_of_mcros].mcro_name == NULL) {
+   /* allocating memory for the macro name and store */
+   mcro_array.mcros[mcro_array.number_of_mcros].mcro_name = malloc(strlen(mcro_name) + 1);
+   if (mcro_array.mcros[mcro_array.number_of_mcros].mcro_name == NULL) {
        fprintf(stdout,"ERROR:  memory allocation failed - mcro name");
        exit(EXIT_FAILURE);
    }
-   strcpy(Macros_Array.mcros[Macros_Array.number_of_mcros].mcro_name, mcro_name);
+   strcpy(mcro_array.mcros[mcro_array.number_of_mcros].mcro_name, mcro_name);
 
-   /* Allocating memory for the macro content and store */
-   Macros_Array.mcros[Macros_Array.number_of_mcros].mcro_lines = malloc(strlen(mcro_lines) + 1);
-   if (Macros_Array.mcros[Macros_Array.number_of_mcros].mcro_lines == NULL) {
+   /* allocating memory for the macro content and store */
+   mcro_array.mcros[mcro_array.number_of_mcros].mcro_lines = malloc(strlen(mcro_lines) + 1);
+   if (mcro_array.mcros[mcro_array.number_of_mcros].mcro_lines == NULL) {
        fprintf(stdout,"ERROR: memory allocation failed - mcro lines");
        exit(EXIT_FAILURE);
    }
-   strcpy(Macros_Array.mcros[Macros_Array.number_of_mcros].mcro_lines, mcro_lines);
+   strcpy(mcro_array.mcros[mcro_array.number_of_mcros].mcro_lines, mcro_lines);
    len = strlen(mcro_lines);
     if (len > 0 && mcro_lines[len - 1] != '\n') {
-        strcat(Macros_Array.mcros[Macros_Array.number_of_mcros].mcro_lines, "\n");  /*Append newline if missing*/
+        strcat(mcro_array.mcros[mcro_array.number_of_mcros].mcro_lines, "\n");  /*append newline if missing*/
     }
-   Macros_Array.number_of_mcros++;
+   mcro_array.number_of_mcros++;
  }
 
 
-/* frees the memory allocated of mcro array
+/* This function frees the memory allocated of mcro array
    input:
       pointer to the beginning of the array
 */
-/*void mcro_memory_release(){
+void mcro_memory_release(void){
    int i;
-   for (i = 0; i<Macros_Array.number_of_mcros; i++){
-        free(Macros_Array.mcros[i].mcro_name);
-        free(Macros_Array.mcros[i].mcro_lines);
+   for (i = 0; i<mcro_array.number_of_mcros; i++){
+        free(mcro_array.mcros[i].mcro_name);
+        free(mcro_array.mcros[i].mcro_lines);
    }
-   free(Macros_Array.mcros);
- }*/
+   free(mcro_array.mcros);
+ }
 
 
 /* The function goes through the array and checks if the string is equal to one of the macro names
@@ -298,8 +307,8 @@
  */
 boolean mcro_array_scan_result(char *string) {
  int i = 0;
- for (i = 0 ; i < Macros_Array.number_of_mcros; i++){
-  if (strcmp(string, Macros_Array.mcros[i].mcro_name) == 0) {
+ for (i = 0 ; i < mcro_array.number_of_mcros; i++){
+  if (strcmp(string, mcro_array.mcros[i].mcro_name) == 0) {
     fprintf(stderr,"ERROR:  %s Invalid macro name - already exist\n", string);
      return FALSE;
   }

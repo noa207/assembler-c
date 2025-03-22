@@ -2,24 +2,25 @@
 triple:          'arm64-apple-darwin'
 binary-path:     assembler
 relocations:
-  - { offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x10000241C, symSize: 0xF0 }
-  - { offset: 0x41, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x10000241C, symSize: 0xF0 }
-  - { offset: 0xBC, size: 0x8, addend: 0x0, symName: _split_line, symObjAddr: 0x0, symBinAddr: 0x10000250C, symSize: 0x2E8 }
-  - { offset: 0xFA, size: 0x8, addend: 0x0, symName: _split_line, symObjAddr: 0x0, symBinAddr: 0x10000250C, symSize: 0x2E8 }
-  - { offset: 0x184, size: 0x8, addend: 0x0, symName: _release_memory, symObjAddr: 0x2E8, symBinAddr: 0x1000027F4, symSize: 0x70 }
-  - { offset: 0x1B6, size: 0x8, addend: 0x0, symName: _check_not_protected_word, symObjAddr: 0x358, symBinAddr: 0x100002864, symSize: 0x13C }
-  - { offset: 0x1FA, size: 0x8, addend: 0x0, symName: _Subtracting_spaces, symObjAddr: 0x494, symBinAddr: 0x1000029A0, symSize: 0xAC }
-  - { offset: 0x297, size: 0x8, addend: 0x0, symName: _create_fullname_of_file, symObjAddr: 0x0, symBinAddr: 0x100002A4C, symSize: 0xC8 }
-  - { offset: 0x2D4, size: 0x8, addend: 0x0, symName: _create_fullname_of_file, symObjAddr: 0x0, symBinAddr: 0x100002A4C, symSize: 0xC8 }
-  - { offset: 0x318, size: 0x8, addend: 0x0, symName: _file_handling_of_reading, symObjAddr: 0xC8, symBinAddr: 0x100002B14, symSize: 0x88 }
-  - { offset: 0x34E, size: 0x8, addend: 0x0, symName: _file_handling_of_writing, symObjAddr: 0x150, symBinAddr: 0x100002B9C, symSize: 0x88 }
-  - { offset: 0x5B0, size: 0x8, addend: 0x0, symName: _pre_process, symObjAddr: 0x0, symBinAddr: 0x100002C24, symSize: 0x774 }
-  - { offset: 0x5D7, size: 0x8, addend: 0x0, symName: _Macros_Array, symBinAddr: 0x100008000, symSize: 0x0 }
-  - { offset: 0x66D, size: 0x8, addend: 0x0, symName: _pre_process, symObjAddr: 0x0, symBinAddr: 0x100002C24, symSize: 0x774 }
-  - { offset: 0x7A2, size: 0x8, addend: 0x0, symName: _mcro_get_index, symObjAddr: 0x774, symBinAddr: 0x100003398, symSize: 0x98 }
-  - { offset: 0x7E6, size: 0x8, addend: 0x0, symName: _mcro_name_checking, symObjAddr: 0x80C, symBinAddr: 0x100003430, symSize: 0x1E0 }
-  - { offset: 0x82A, size: 0x8, addend: 0x0, symName: _mcro_line_valid, symObjAddr: 0x9EC, symBinAddr: 0x100003610, symSize: 0x48 }
-  - { offset: 0x860, size: 0x8, addend: 0x0, symName: _mcro_data_saving, symObjAddr: 0xA34, symBinAddr: 0x100003658, symSize: 0x224 }
-  - { offset: 0x8AE, size: 0x8, addend: 0x0, symName: _mcro_insert_data, symObjAddr: 0xC58, symBinAddr: 0x10000387C, symSize: 0xB4 }
-  - { offset: 0x8E4, size: 0x8, addend: 0x0, symName: _mcro_array_scan_result, symObjAddr: 0xD0C, symBinAddr: 0x100003930, symSize: 0xC8 }
+  - { offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100002358, symSize: 0xF0 }
+  - { offset: 0x41, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100002358, symSize: 0xF0 }
+  - { offset: 0xBC, size: 0x8, addend: 0x0, symName: _split_line, symObjAddr: 0x0, symBinAddr: 0x100002448, symSize: 0x2E8 }
+  - { offset: 0xFA, size: 0x8, addend: 0x0, symName: _split_line, symObjAddr: 0x0, symBinAddr: 0x100002448, symSize: 0x2E8 }
+  - { offset: 0x184, size: 0x8, addend: 0x0, symName: _release_memory, symObjAddr: 0x2E8, symBinAddr: 0x100002730, symSize: 0x70 }
+  - { offset: 0x1B6, size: 0x8, addend: 0x0, symName: _check_not_protected_word, symObjAddr: 0x358, symBinAddr: 0x1000027A0, symSize: 0x13C }
+  - { offset: 0x1FA, size: 0x8, addend: 0x0, symName: _Subtracting_spaces, symObjAddr: 0x494, symBinAddr: 0x1000028DC, symSize: 0xAC }
+  - { offset: 0x297, size: 0x8, addend: 0x0, symName: _create_fullname_of_file, symObjAddr: 0x0, symBinAddr: 0x100002988, symSize: 0xC8 }
+  - { offset: 0x2D4, size: 0x8, addend: 0x0, symName: _create_fullname_of_file, symObjAddr: 0x0, symBinAddr: 0x100002988, symSize: 0xC8 }
+  - { offset: 0x318, size: 0x8, addend: 0x0, symName: _file_handling_of_reading, symObjAddr: 0xC8, symBinAddr: 0x100002A50, symSize: 0x88 }
+  - { offset: 0x34E, size: 0x8, addend: 0x0, symName: _file_handling_of_writing, symObjAddr: 0x150, symBinAddr: 0x100002AD8, symSize: 0x88 }
+  - { offset: 0x5B0, size: 0x8, addend: 0x0, symName: _pre_process, symObjAddr: 0x0, symBinAddr: 0x100002B60, symSize: 0x778 }
+  - { offset: 0x5D7, size: 0x8, addend: 0x0, symName: _mcro_array, symBinAddr: 0x100008000, symSize: 0x0 }
+  - { offset: 0x66D, size: 0x8, addend: 0x0, symName: _pre_process, symObjAddr: 0x0, symBinAddr: 0x100002B60, symSize: 0x778 }
+  - { offset: 0x7A2, size: 0x8, addend: 0x0, symName: _mcro_get_index, symObjAddr: 0x778, symBinAddr: 0x1000032D8, symSize: 0x98 }
+  - { offset: 0x7E6, size: 0x8, addend: 0x0, symName: _mcro_name_checking, symObjAddr: 0x810, symBinAddr: 0x100003370, symSize: 0x1E0 }
+  - { offset: 0x82A, size: 0x8, addend: 0x0, symName: _mcro_line_valid, symObjAddr: 0x9F0, symBinAddr: 0x100003550, symSize: 0x48 }
+  - { offset: 0x860, size: 0x8, addend: 0x0, symName: _mcro_data_saving, symObjAddr: 0xA38, symBinAddr: 0x100003598, symSize: 0x224 }
+  - { offset: 0x8B3, size: 0x8, addend: 0x0, symName: _mcro_insert_data, symObjAddr: 0xC5C, symBinAddr: 0x1000037BC, symSize: 0xB4 }
+  - { offset: 0x8E9, size: 0x8, addend: 0x0, symName: _mcro_memory_release, symObjAddr: 0xD10, symBinAddr: 0x100003870, symSize: 0x9C }
+  - { offset: 0x90F, size: 0x8, addend: 0x0, symName: _mcro_array_scan_result, symObjAddr: 0xDAC, symBinAddr: 0x10000390C, symSize: 0xC8 }
 ...

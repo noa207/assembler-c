@@ -64,8 +64,9 @@ char **split_line(char *string_of_line){
   return split_line_words;
 }
 
-/*
-
+/* This function frees the memory allocated
+   input:
+      pointer to the beginning of the list
 */
 void release_memory(char **tokens){
   int i = 0;
@@ -74,16 +75,6 @@ void release_memory(char **tokens){
   }
   free(tokens);
 }
-
-/*
-void split_line_memory_release(char **split_line_words){
-  int i = 0;
-  while(split_line_words[i] != NULL){
-    free(split_line_words[i]);
-    i++;
-  }
-  free(split_line_words);
-}*/
 
 /* This function check if the variable is not protected word
     input:
