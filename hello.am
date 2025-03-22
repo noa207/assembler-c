@@ -1,10 +1,15 @@
-label: odfjepi
-maya
-abc
-mcroendigi
-b
-label: odfjepi
-maya
-abc
-label: odfjepi
-maya
+start: mov r1, r2
+label_inside_macro: add r3, r4
+ bne label_inside_macro
+should not fail
+label_inside_macro: add r3, r4
+ bne label_inside_macro
+hello world noa
+this is a simple project
+bla bla
+hello world
+MAIN:  add   r3,LIST
+LOOP:  prn   #48
+       lea   STR,r6
+       inc   r6
+       mov   r3,k

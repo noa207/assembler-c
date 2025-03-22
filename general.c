@@ -101,7 +101,8 @@ boolean check_not_protected_word(char *variable_name){
 
 /* This function ger a pointer to string and removes unnecessary spaces
 input:
-    line - line of the file
+    line - line from the file
+*/
 /* this function was taken from mmn 22 and was divided by void read_comp_parsing(char *command)*/
 void clean_spaces (char *line) {
     char *end;

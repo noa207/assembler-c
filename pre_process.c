@@ -10,8 +10,8 @@
 	   	'1' if there was an error in input file processing
  */
 
- /* Dynamically allocated array for Mcros */
-MacrosArray mcro_array;
+/* Dynamically allocated array for Mcros */
+static MacrosArray mcro_array;
 
  int pre_process(char *filename) {
     FILE *file_input;
@@ -238,8 +238,9 @@ MacrosArray mcro_array;
          return FALSE;
        }
      }
+     return TRUE;
    }
-   return TRUE;
+   return FALSE;
  }
 
  /* The function receives a pointer to a name and checks whether the name is in the macro array, if so, replaces the line with the macro value. ֿֿ*/
