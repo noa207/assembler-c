@@ -1,9 +1,9 @@
 start: mov r1, r2
-mcro my_macro
+mcro my_macro a
 label_inside_macro: add r3, r4
 
 bne label_inside_macro
-mcroend
+mcroend e
 
 my_macro
 

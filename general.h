@@ -10,6 +10,8 @@
 
 #define MAX_LINE_LENGTH 80
 #define NUM_PROTECTED_WORDS 26
+#define MAX_LENGTH_OF_NAME 31
+
 
 typedef enum { FALSE, TRUE} boolean;
 
@@ -19,7 +21,7 @@ typedef enum { FALSE, TRUE} boolean;
     output:
       split_line_words- the array of words after we splitted
 */
-char **split_line(char *string_of_line);
+char **split_line(char *string_of_line, int line_counter);
 
 /* This function frees the memory allocated
    input:
@@ -34,7 +36,7 @@ void release_memory(char **tokens);
       return FALSE if the name is protected name, else TRUE
 
 */
-boolean check_not_protected_word(char *variable_name);
+boolean check_not_protected_word(char *variable_name, int line_counter);
 
 /* This function ger a pointer to string and removes unnecessary spaces
 input:

@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
     int number;
     if (argc < 2) {
         fprintf(stderr, "ERROR: No input file provided.\n");
-        fprintf(stderr, "Usage: %s <input_file>\n", argv[0]);
+        /*fprintf(stderr, "Usage: %s <input_file>\n", argv[0]);*/
         return 1;
     }
     number = pre_process(argv[1]);

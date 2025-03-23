@@ -4,7 +4,6 @@
 #include "general.h"
 #include "files.h"
 
-#define MAX_LENGTH_OF_MCRO_NAME 31
 
 typedef struct Mcro {
     char *mcro_name;
@@ -49,7 +48,7 @@ int mcro_get_index(char **array_of_line, char *mcro_define);
     output:
       return FALSE if the name is not valid for mcro define else TRUE
 */
-boolean mcro_name_checking(char *mcro_name);
+boolean mcro_name_checking(char *mcro_name, int line_counter);
 
 /*This function check if the token in the line is a mcro name
     input:
@@ -64,7 +63,7 @@ char *mcro_insert_data(char *mcro_name);
        mcro_name- the name of the mcro
        mcro_lines -  the mcro content
 */
-void mcro_data_saving(char *mcro_name, char *mcro_lines);
+void mcro_data_saving(char *mcro_name, char *mcro_lines, int line_counter);
 
 /* This function going through the array release the memory
    input:
@@ -79,7 +78,7 @@ void mcro_data_saving(char *mcro_name, char *mcro_lines);
    output:
       the function returns false if the string is equal to one of the macro names, otherwise true
 */
-boolean mcro_array_scan_result( char *string);
+boolean mcro_array_scan_result( char *string, int line_counter);
 
 /* This function frees the memory allocated of mcro array */
 void mcro_memory_release(void);

@@ -6,7 +6,7 @@
     output:
       split_line_words- the array of words after we splitted
 */
-char **split_line(char *string_of_line){
+char **split_line(char *string_of_line, int line_counter){
   int count_tokens = 0;
   char *line_copy;
   char *split_token;
@@ -26,7 +26,7 @@ char **split_line(char *string_of_line){
   line_copy = malloc(strlen(string_of_line) + 1);
 
   if( line_copy == NULL){
-    fprintf(stderr, "MEMORY ERROR: memory allocation is faild\n");
+    fprintf(stderr, "[ %d ] ERROR: memory allocation is faild\n", line_counter);
     return NULL;
   }
 
@@ -34,12 +34,10 @@ char **split_line(char *string_of_line){
   split_token = strtok(line_copy, delimiter);
 
   while(split_token != NULL){
-    printf( " %s\n", split_token );
-
     temp_split_line_words = realloc(split_line_words, (count_tokens + 1) * sizeof(char *));
 
     if(!temp_split_line_words){
-      fprintf(stderr, "ERROR: memory allocation is faild\n");
+      fprintf(stderr, "[ %d ] ERROR: memory allocation is faild\n", line_counter);
       free(line_copy);
       return NULL;
     }
@@ -47,7 +45,7 @@ char **split_line(char *string_of_line){
 
     split_line_words[count_tokens] = malloc(strlen(split_token) + 1);
     if(!split_line_words[count_tokens]){
-      fprintf(stderr, "ERROR: memory allocation is faild\n");
+      fprintf(stderr, "[ %d ] ERROR: memory allocation is faild\n", line_counter);
       free(line_copy);
       free(split_line_words);
       return NULL;
@@ -82,17 +80,17 @@ void release_memory(char **tokens){
     output:
       return FALSE if the name is protected name, else TRUE
 */
-boolean check_not_protected_word(char *variable_name){
+boolean check_not_protected_word(char *variable_name, int line_counter){
   int i = 0;
   char *protected_words[] = {"mov", "cmp", "add", "sub", "lea", "clr", "not", "inc", "dec", "jmp", "bne", "jsr", "red", "prn", "rts", "stop", "data" , "string", "entry", "extern" , "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7"};
 
   if (!variable_name) {
-    fprintf(stderr, "ERROR: check_not_protected_word received NULL pointer\n");
+    fprintf(stderr, "[ %d ] ERROR: check_not_protected_word received NULL pointer\n", line_counter);
     return FALSE;
   }
   for (i = 0; i < NUM_PROTECTED_WORDS; i++) {
     if (strcmp(variable_name, protected_words[i]) == 0) { /* Compare against protected words */
-      fprintf(stderr, "STRING ERROR: %s Invalid macro name - name of instruction/directive/register\n", variable_name);
+      fprintf(stderr, "[ %d ] ERROR: %s Invalid macro name - name of instruction/directive/register\n", line_counter, variable_name);
       return FALSE;
     }
   }
