@@ -6,7 +6,7 @@ This project is implementation of assembler language in c language.
 The program get 'as' files that contain instructions of assembler language,convert them to machine code language and export entries and external file of labels
 
 ## How to run?
-''bash
+````bash
 // Compile the program
 make
 
