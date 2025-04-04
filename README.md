@@ -15,7 +15,7 @@ In each pass the program create the next files:
 
 
 ## How to run?
-````bash
+
 
 // Compile the program
 ````bash
