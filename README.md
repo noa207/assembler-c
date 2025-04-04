@@ -20,17 +20,17 @@ In each pass the program create the next files:
 // Compile the program
 ```bash
 make
-```bash
+```
 
 //Run the o files with arguments
 ```bash
 ./assembler <filename1> <filename2> ...
-```bash
+```
 
 //Clean and reset th program
 ```bash
 make clean
-```bash
+```
 
 
 
