@@ -1,20 +1,36 @@
-# Assembler project in c language
+# Assembler project (C Language)
 
-This project is created by Maya Bilic and Noa Mendelovich at course 20465, 2025A
+Created by: Maya Bilic & Noa Mendelovich  
+Course: 20465 — Semester 2025A
 
-This project is implementation of assembler language in c language.
-The program get 'as' files that contain instructions of assembler language,convert them to machine code language and export entries and external file of labels
+## Project Overview
+
+This project is an implementation of assembler language in C programming language.
+It executes '.as' files whoch contain assembly language instructions and translates them into machine code language
+In each pass the program create the next files:
+* '.am' files are created after the pre-process, when we interpret macros- contain as. file's content after interpretation
+* '.ob' files created after the second pass when we translate the statements and save them as hexdecimal numbers
+* '.ent' files created after the second pass, contains entry labels
+* '.ent' files created after the second pass, contains external labels
+
 
 ## How to run?
 ````bash
 
 // Compile the program
+````bash
 make
-
+````bash
 
 //Run the o files with arguments
+````bash
 ./assembler <filename1> <filename2> ...
-
+````bash
 
 //Clean and reset th program
+````bash
 make clean
+````bash
+
+
+
