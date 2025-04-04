@@ -18,19 +18,19 @@ In each pass the program create the next files:
 
 
 // Compile the program
-````bash
+```bash
 make
-````bash
+```bash
 
 //Run the o files with arguments
-````bash
+```bash
 ./assembler <filename1> <filename2> ...
-````bash
+```bash
 
 //Clean and reset th program
-````bash
+```bash
 make clean
-````bash
+```bash
 
 
 
