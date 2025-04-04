@@ -7,11 +7,14 @@ The program get 'as' files that contain instructions of assembler language,conve
 
 ## How to run?
 ````bash
+
 // Compile the program
 make
 
+
 //Run the o files with arguments
 ./assembler <filename1> <filename2> ...
+
 
 //Clean and reset th program
 make clean
