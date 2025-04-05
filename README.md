@@ -11,8 +11,8 @@ The assembler consists from pre-process and two passes and generates the followi
 
 * '.am' files - created after the pre-processing stage. This file contains the original .as content with macros expanded.
 * '.ob' files - created after the second pass stage. This file contains the machine code instructions in hexdecimal format.
-* '.ent' files - created after the second pass stage. Contains all entry labels defined in the source file
-* '.ent' files - created after the second pass stage. Contains all external labels defined in the source file (referenced)
+* '.ent' files - created after the second pass stage. Contains all entry labels defined in the source file.
+* '.ext' files - created after the second pass stage. Contains all external labels defined in the source file (referenced).
 
 
 ## How to run?
